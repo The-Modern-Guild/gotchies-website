@@ -17,8 +17,6 @@ function clearBundleButtons() {
     });
 }
 
-
-
 // Function to find the active bundle option and log its bundle-id 
 function findActiveBundleOption() {
     const activeElement = document.querySelector('.bundle-option.sf-active');
