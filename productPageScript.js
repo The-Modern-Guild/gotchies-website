@@ -1,3 +1,4 @@
+
 window.addEventListener('load', function() {
     function clearSizeButtons() {
         let sizeButtons = document.querySelectorAll('.size-option');
@@ -193,3 +194,4 @@ window.addEventListener('load', function() {
     
     updateProduct();
 });
+
