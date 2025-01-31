@@ -1,4 +1,80 @@
+    // Array of text sets
+    const textSets = [
+        { element1: "Prioritize", element2: "Your Health" },
+        { element1: "Extremely", element2: "Comfortable" },
+        { element1: "Your Future is", element2: "Organic" }
+    ];
 
+    // Function to update text content based on the visible slide
+    function updateTextForVisibleSlide(slideIndex) {
+        // Get the elements
+        const el1 = document.getElementById("header-slide-white");
+        const el2 = document.getElementById("header-slide-green");
+
+        if (!el1 || !el2) {
+            return;
+        }
+
+        // Remove visible class to trigger fade-out
+        el1.classList.remove("visible");
+        el2.classList.remove("visible");
+
+        // Wait for transition to complete, then update text
+        setTimeout(() => {
+            el1.textContent = textSets[slideIndex].element1;
+            el2.textContent = textSets[slideIndex].element2;
+
+            // Add visible class to trigger fade-in
+            el1.classList.add("visible");
+            el2.classList.add("visible");
+        }, 500); // Match the CSS transition duration
+    }
+
+    // Function to set up the Intersection Observer
+    function observeSlides() {
+        const slides = ["slide-1", "slide-2", "slide-3"]; // List of slide IDs
+        const options = {
+            root: null, // Use the viewport as the root
+            threshold: 0.5 // Trigger when at least 50% of the slide is in view
+        };
+
+        // Create Intersection Observer
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Determine which slide is visible
+                    const slideIndex = slides.indexOf(entry.target.id);
+                    if (slideIndex !== -1) {
+                        updateTextForVisibleSlide(slideIndex);
+                    }
+                }
+            });
+        }, options);
+
+        // Observe each slide
+        slides.forEach(slideId => {
+            const slide = document.getElementById(slideId);
+            if (slide) {
+                observer.observe(slide);
+            }
+        });
+    }
+
+    // Initialize the observer on DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", () => {
+        // Set initial text to the first slide's text set
+        const el1 = document.getElementById("header-slide-white");
+        const el2 = document.getElementById("header-slide-green");
+
+        if (el1 && el2) {
+            el1.textContent = textSets[0].element1;
+            el2.textContent = textSets[0].element2;
+            el1.classList.add("visible");
+            el2.classList.add("visible");
+        }
+        // Start observing slides
+        observeSlides();
+    });
 window.addEventListener('load', function() {
     function clearSizeButtons() {
         let sizeButtons = document.querySelectorAll('.size-option');
@@ -32,7 +108,7 @@ window.addEventListener('load', function() {
         return null;
     }
     
-     function updatePrice() {
+    function updatePrice() {
     	const bundleId = findActiveBundleOption();
       const priceElement = document.getElementById('organic-briefs-price');
       const strikethroughPriceElement = document.getElementById('organic-briefs-strikethrough-price');
@@ -44,6 +120,20 @@ window.addEventListener('load', function() {
         	priceElement.textContent = price;
           strikethroughPriceElement.textContent = strikethroughPrice;
       	}
+      }
+    }
+    
+    function updatePhoto() {
+    	document.querySelectorAll('.div-block-25').forEach((element) => {
+      	element.style.display = 'none'
+      })
+    	let bundleId = findActiveBundleOption();
+      if (bundleId == '7356063875139') {
+      	document.getElementById('single-image').style.display = 'flex'
+      } else if (bundleId == '7356069904451') {
+      	document.getElementById('three-image').style.display = 'flex';
+      } else if (bundleId == '7356064071747') {
+      	document.getElementById('five-image').style.display = 'flex';
       }
     }
 
@@ -74,8 +164,8 @@ window.addEventListener('load', function() {
         '7356064071747': '$130.00'
     };
     
-       const strikePriceMatrix = {
-        '7356063875139':' ',
+    const strikePriceMatrix = {
+        '7356063875139':'',
         '7356069904451': '$90.00',
         '7356064071747': '$150.00'
     };
@@ -114,8 +204,9 @@ window.addEventListener('load', function() {
             return;
         }
         
-        // update price when product is updated
+        // update price and photo when product is updated
         updatePrice();
+        updatePhoto()
 
         const addToCart = document.getElementById('add-to-cart');
         const buyNow = document.getElementById('buy-now');
@@ -194,4 +285,69 @@ window.addEventListener('load', function() {
     
     updateProduct();
 });
+  const cards = document.querySelectorAll('.be-organic-card-2');
 
+  cards.forEach(card => {
+    let currentOffsetX = 0; // Track current X offset
+    let currentOffsetY = 0; // Track current Y offset
+    let isFirstHover = true; // Track whether it's the first hover
+
+    card.addEventListener('mouseenter', () => {
+      if (isFirstHover) {
+        // On the first hover, ensure it doesn't snap
+        card.style.transition = 'transform 0.2s ease';
+        setTimeout(() => {
+          card.style.transition = 'none'; // Disable transition for immediate motion
+        }, 200); // Allow a brief initial smoothness
+        isFirstHover = false;
+      }
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      // Get element’s position and size
+      const rect = card.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+
+      // Determine mouse position relative to the element
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Calculate offsets
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const offsetX = (x - centerX) / 30;
+      const offsetY = (y - centerY) / 30;
+
+      // Animate the transform to smoothly move to the new position
+      card.animate(
+        [
+          { transform: `translate(${currentOffsetX}px, ${currentOffsetY}px)` },
+          { transform: `translate(${offsetX}px, ${offsetY}px)` }
+        ],
+        { duration: 100, fill: 'forwards' }
+      );
+
+      // Update the current offsets
+      currentOffsetX = offsetX;
+      currentOffsetY = offsetY;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      // Smoothly return to the original position
+      card.animate(
+        [
+          { transform: `translate(${currentOffsetX}px, ${currentOffsetY}px)` },
+          { transform: `translate(0, 0)` }
+        ],
+        { duration: 200, fill: 'forwards' }
+      );
+
+      // Reset offsets
+      currentOffsetX = 0;
+      currentOffsetY = 0;
+
+      // Reset first hover flag for future interactions
+      isFirstHover = true;
+    });
+  });
