@@ -118,7 +118,7 @@ window.addEventListener('load', function() {
         const strikethroughPrice = strikePriceMatrix[bundleId];
         if (price && strikethroughPrice) {
         	priceElement.textContent = price;
-          strikethroughPriceElement.textContent = strikethroughPrice;
+            strikethroughPriceElement.textContent = strikethroughPrice;
       	}
       }
     }
@@ -165,7 +165,7 @@ window.addEventListener('load', function() {
     };
     
     const strikePriceMatrix = {
-        '7356063875139':' ',
+        '7356063875139':'\s',
         '7356069904451': '$90.00',
         '7356064071747': '$150.00'
     };
