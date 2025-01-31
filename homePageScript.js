@@ -116,7 +116,7 @@ window.addEventListener('load', function() {
       if (bundleId && priceElement && strikethroughPriceElement) {
       	const price = priceMatrix[bundleId];
         const strikethroughPrice = strikePriceMatrix[bundleId];
-        if (price && strikethroughPrice) {
+        if (price) {
         	priceElement.textContent = price;
             strikethroughPriceElement.textContent = strikethroughPrice;
       	}
