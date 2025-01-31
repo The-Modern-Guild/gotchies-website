@@ -165,7 +165,7 @@ window.addEventListener('load', function() {
     };
     
     const strikePriceMatrix = {
-        '7356063875139':'',
+        '7356063875139':' ',
         '7356069904451': '$90.00',
         '7356064071747': '$150.00'
     };
