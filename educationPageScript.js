@@ -1,20 +1,31 @@
-function handleHashChange() {
-    const hashValue = window.location.hash.substring(1); // Removes "#"
-    console.log("Hash change:", hashValue);
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("✅ DOMContentLoaded event fired!");
 
-    // Hide all `.article-div` elements
+    // Example: Hide all `.article-div` elements
     document.querySelectorAll('.article-div').forEach((element) => {
         element.style.display = 'none';
     });
 
-    // Ensure the hash is not empty and the target element exists
+    // Get the hash from the URL and show the relevant section
+    const hashValue = window.location.hash.substring(1);
     if (hashValue && document.getElementById(hashValue)) {
         document.getElementById(hashValue).style.display = 'flex';
+        console.log("✅ Showing section:", hashValue);
+    } else {
+        console.warn("⚠️ No matching section found for hash:", hashValue);
     }
-}
 
-// Ensure script runs after DOM is fully loaded
-document.addEventListener("DOMContentLoaded", () => {
-    handleHashChange(); // Run on page load
-    window.addEventListener("hashchange", handleHashChange); // Run when hash changes
+    // Listen for hash changes
+    window.addEventListener("hashchange", function() {
+        console.log("🔄 Hash changed:", window.location.hash);
+
+        document.querySelectorAll('.article-div').forEach((element) => {
+            element.style.display = 'none';
+        });
+
+        const newHash = window.location.hash.substring(1);
+        if (newHash && document.getElementById(newHash)) {
+            document.getElementById(newHash).style.display = 'flex';
+        }
+    });
 });
