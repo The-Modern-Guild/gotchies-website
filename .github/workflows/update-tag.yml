@@ -1,0 +1,25 @@
+name: Update JSDelivr Tag
+
+on:
+  push:
+    branches:
+      - qa
+      - prod
+
+jobs:
+  update_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get latest commit hash
+        id: commit
+        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
+
+      - name: Update "latest" tag
+        run: |
+          git tag -fa latest -m "Updating to latest commit"
+          git push origin --force latest
