@@ -1,27 +1,16 @@
-(function() {
-    // Get the current URL
-    const currentURL = window.location.href;
+  function handleHashChange() {
+      const hashValue = window.location.hash.substring(1); // Removes "#"
+      console.log("Hash changed:", hashValue);
 
-    // Define your QA and Production file URLs from JSDelivr
-    const cdnFiles = {
-        "qa": "https://cdn.jsdelivr.net/gh/The-Modern-Guild/gotchies-website@qa/script.js",
-        "prod": "https://cdn.jsdelivr.net/gh/The-Modern-Guild/gotchies-website@main/script.js"
-    };
+      document.querySelectorAll('.article-div').forEach((element) => {
+        element.style.display = 'none';
+      })
 
-    // Determine environment based on URL pattern
-    let scriptSrc;
-    if (currentURL.includes("gotchies.webflow.io")) {
-        scriptSrc = cdnFiles.qa;  // Load QA version
-    } else {
-        scriptSrc = cdnFiles.prod; // Load Production version (default)
-    }
+      document.getElementById(hashValue).style.display = 'flex';
+  }
 
-    // Dynamically create script tag
-    const script = document.createElement("script");
-    script.src = scriptSrc;
-    script.type = "text/javascript";
-    script.async = true;
-    document.head.appendChild(script);
+  // Run when the page loads
+  document.addEventListener("DOMContentLoaded", handleHashChange);
 
-    console.log("Loaded script from:", scriptSrc);
-})();
+  // Listen for hash changes
+  window.addEventListener("hashchange", handleHashChange);
