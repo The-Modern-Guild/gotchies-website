@@ -9,15 +9,24 @@ on:
 jobs:
   update_tag:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grant permission to push changes
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }} # Use built-in GitHub token
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
 
       - name: Get latest commit hash
         id: commit
-        run: echo "::set-output name=sha::$(git rev-parse HEAD)"
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Update "latest" tag
         run: |
