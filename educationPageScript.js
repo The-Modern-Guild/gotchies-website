@@ -1,6 +1,6 @@
 function handleHashChange() {
     const hashValue = window.location.hash.substring(1); // Removes "#"
-    console.log("Hash changed:", hashValue);
+    console.log("Hash change:", hashValue);
 
     // Hide all `.article-div` elements
     document.querySelectorAll('.article-div').forEach((element) => {
