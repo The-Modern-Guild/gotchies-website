@@ -351,3 +351,7 @@ window.addEventListener('ShopyflowReady', (event) => {
         updateProduct();
     });
 })
+
+window.onload = function() {
+  updatePrice();
+};
